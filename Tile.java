@@ -1,9 +1,8 @@
 
 /**
- * Write a description of class Tile here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * Tile class, there are 7 tile objects made
+ * Each tile holds its position, current letter and whether is been drawn on the board or not
+ * @author Thomas Edwards
  */
 
 import ecs100.*;
@@ -15,7 +14,7 @@ public class Tile
 
     private int left = 70;
     private int top = 70;
-    public boolean reDrawn = false;
+    public boolean reDrawn = false;//whether or not the tile has been redrawn on the board
     private int xPos = ScrabbleBoard.tileSize+10; //space between each tile
     public String currentLetter;//the current letter that this tile is
     private Color myBrown = new Color(244,164,96);
@@ -27,7 +26,7 @@ public class Tile
     /**
      * CONSTRUCTOR
      * Takes a new letter from the bag array, sets it as the current letter
-     * Calls draw tile method to draw the tile
+     * Calls draw tile method to draw the tile in the default position
      */
     public Tile(int tileNum)
     {
@@ -40,7 +39,7 @@ public class Tile
     }
 
     /**
-     * Draws the tile in its tileNumber position
+     * Draws the tile in its tileNumber (default) position
      */
     public void drawTile (){
         String letter = currentLetter;//takes a letter from current letter array and uses it
@@ -191,31 +190,20 @@ public class Tile
     /**
      * Checks whether the spot you are trying to fill is already taken or not
      * If it is then it returns true
-     * If its not then it marks it in the boolean array, marks what letter in the letter array and then returns false
-     * Also adds the letter to all the arrays in boardchecker
+     * If its not then it fills out the appropriate arrays and returns false
+     * Also adds the letter, letter score and tiledrawn values to the 3 arrays in boardchecker
      */
 
     public boolean boardFillChecker (int x, int y){
-        /**       int x1 = (int) x;
-        int y1 = (int) y;
-        if(BoardChecker.boardTileNumbers[x1][y1]!=0){return true;}
-        else{
-        ScrabbleGame.boardFill[(yCoord-1)*15+xCoord-1]=true;
-        BoardChecker.boardLetters[(yCoord-1)*15+xCoord-1] = currentLetter;
-        double letterScore = BoardChecker.letterScore(currentLetter);
-        BoardChecker.boardLetterScores[xCoord-1][yCoord-1]=letterScore;
-        return false;
-        }
-         */
         if (BoardChecker.boardLetter[y-1][x-1]!=null){
             return true;
         }
         else{
             //the following changes 2 arrays adding the letter to the correct spot in each array
+            //the thrid array is added to in scrabble game when this method returns false
             double letterScore = BoardChecker.letterScore(currentLetter);//gets the leter score using the letterscore method
             BoardChecker.boardLetterScores[yCoord-1][xCoord-1]=letterScore;//adds the letter score to the correct spot in the letter score array
             BoardChecker.boardLetter [yCoord-1][xCoord-1]= currentLetter;//adds the letter to the board letters array
-            //doesnt add tile number to tile array
             return false;
         }
     }
@@ -224,7 +212,6 @@ public class Tile
      * Calls deleteTile method
      * Chooses new letter from bag array and sets it as current letter
      * Calls drawTile methos
-     * NEED to add what to do once no tiles are left.
      */
     public void replaceTile()
     {
@@ -239,13 +226,10 @@ public class Tile
             yCoord=0;
             reDrawn = false;
         }
-        else{
-
-        }
     }
 
     /**
-     * Erases a tile and its letter doesnt erase object though
+     * Erases a tile when its in its default position and its letter doesnt erase object though
      * Then draws background rectangle
      */
     public void deleteTile() {
@@ -260,8 +244,6 @@ public class Tile
 
     //take coordinates from the mouse, checks which box its in, then either erases that box if mouse was in a box or draws tile in orginal place
     public void deleteTilePosition(double x, double y){
-        //x = boxTileX(x);
-        //y = boxTileY(y);
         if(this.boardFillChecker(xCoord,yCoord)){
             UI.eraseRect(50+(x-1)*ScrabbleBoard.tileSize,50+(y-1)*ScrabbleBoard.tileSize,ScrabbleBoard.tileSize,ScrabbleBoard.tileSize);
             reDrawn = false;
