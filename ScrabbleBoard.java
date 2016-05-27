@@ -4,6 +4,7 @@
  * This creates the board for my scrabble game
  * Thomas Edwards 
  * Version 1
+ * It also contains the redrawing methods that will redraw tiles of the board when called
  */
 
 import ecs100.*;
@@ -24,7 +25,7 @@ public class ScrabbleBoard
     private Color myBrown = new Color(244,164,96);
 
     /**
-     * Constructor for objects of class ScrabbleBoard
+     * Constructor 
      */
     public ScrabbleBoard()
     {
@@ -40,12 +41,6 @@ public class ScrabbleBoard
         UI.drawString(letter,x+12,y+35);
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
-     */
     public void startMethod()
     {
         this.drawOutline();
@@ -56,7 +51,11 @@ public class ScrabbleBoard
         this.drawTripleLetter();
         this.drawStar();
     }
-
+    
+    /**
+     * The following methods are called when the scrabble board object is first made
+     * They run through loops and draw the correct board tiles in the correct locations
+     */
     public void drawPlain(){//draws the plain tiles colored blue-green with a white outline
         int row = 0;
         int col = 0;
@@ -193,10 +192,6 @@ public class ScrabbleBoard
         UI.fillPolygon(x,y,8);
     }
 
-    /** 
-     * Need to draw Number array on y axis
-     */
-
     public void drawOutline () {
         UI.setColor(myDarkGreen);
         UI.fillRect(0,0,boardSize*2,boardSize*2);
@@ -214,6 +209,10 @@ public class ScrabbleBoard
             num++;
         }
     }
+    
+    /**
+     * These following methods will only redraw one tile and will redraw it at the grid coordinates specified in the parameters
+     */
 
     public static void drawTL (double row, double col){//x and y coordinates, not actual pixel points
         row = row-1;
