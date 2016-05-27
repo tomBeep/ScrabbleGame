@@ -10,7 +10,7 @@
  * The tiles start at 70(constant) and each tile is 40 wide and there is a 10(constant) pixel gap between each tile.
  * Note atm changing the boardSize is NOT a good idea.
  * 
- * Currently getting a bug where taking a token off the board and putting it down another tiles spot will swap the tiles and redraw other tile which is still on the board
+ * Bug has been fixed
  */
 import ecs100.*;
 import java.awt.Color;
